@@ -22,20 +22,6 @@ var chosenWord = [choseWord()];
 
 console.log(chosenWord[0]);
 
-// Creating blank array for underscores based on length of chosenWord
-var underscore = [];
-
-for (i = 0; i < chosenWord[0].length; i++) {
-  if (chosenWord[0][i] === ' ') {
-    underscore.push(' ');
-  }
-  else {
-    underscore.push('_');
-  }
-};
-
-console.log(underscore);
-
 // Other Global Variables -------------------------------------------------
 
 // Creating array for incorrect and all previously guessed letters
@@ -49,7 +35,21 @@ var gamesLost = 0;
 
 var gamesWon = 0;
 
+var underscore = [];
+
 // Functions --------------------------------------------------------------
+// Build blanks
+function blanks(){
+  for (i = 0; i < chosenWord[0].length; i++) {
+    if (chosenWord[0][i] === ' ') {
+      underscore.push(' ');
+    }
+    else {
+      underscore.push('_');
+    }
+  };
+}
+
 // Sets initial values at beginning of game
 function start() {
   document.querySelector('#guessRemain').innerHTML = "Guesses remaining: " + guessRemain;
@@ -58,7 +58,7 @@ function start() {
 
   document.querySelector('#gamesLost').innerHTML = "Games Lost: 0";
 
-  document.getElementById("blanks").innerHTML = underscore.join('');
+  document.querySelector("#blanks").innerHTML = underscore.join('');
 };
 
 // Replacing underscores with letters on correct guesses
@@ -73,7 +73,10 @@ function guessIncorrect() {
 
 function gameWon() {
   document.querySelector('#gamesWon').innerHTML = "Games Won: " + gamesWon;
+
   document.querySelector('#status').innerHTML = "Congratulations! The word was " + chosenWord[0];
+
+  underscore.splice(0, chosenWord[0].length, '');
 };
 
 function gameLost() {
@@ -81,11 +84,32 @@ function gameLost() {
 
   document.querySelector("#status").innerHTML = "Game Over! The answer was " + chosenWord[0];
 
-}
+  underscore.splice(0, chosenWord[0].length, '');
+
+  
+};
+
+// Resets for beginning of new game
+function reset(){
+
+  // Chose a new word
+  chosenWord.splice(0, 1, choseWord());
+  console.log(chosenWord[0]);
+
+  // Builds blanks and updates on page
+  blanks();
+  document.querySelector("#blanks").innerHTML = underscore.join('');
+
+  // Resets guessRemain amount to starting value
+  guessRemain = 5;
+  document.querySelector('#guessRemain').innerHTML = 'Guesses remaining: ' + guessRemain;
+
+};
 
 // GAMEPLAY ===============================================================
 
 // Set all values to starting positions
+blanks();
 start();
 
 // Gather user key strokes
@@ -144,16 +168,23 @@ document.onkeyup = function (event) {
   // If user has correct answered the word
   if (underscore.join('') === chosenWord[0].toLowerCase()) {
 
-    // Increase count of games won
+    // Increase count of games won and update on page
     gamesWon++;
-
-    // Update games won on page
     gameWon();
+
+    // Reset
+    reset();
   }
 
+  // If user has run out of guesses
   if (guessRemain <= 0) {
+
+    // Increase count of games lost and update on page
     gamesLost++;
     gameLost();
+
+    // Reset
+    reset();
   };
 
 };
