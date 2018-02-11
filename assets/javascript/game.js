@@ -45,9 +45,14 @@ var gamesLost = 0;
 
 var gamesWon = 0;
 
+//Adding items to page
+
+document.getElementById("underscore").innerHTML = underscore.join(' ');
+
 // Functions --------------------------------------------------------------
-
-
+function guessCorrect (){
+  document.getElementById(underscore.join(' '));
+}
 
 // GAMEPLAY ===============================================================
 
@@ -78,6 +83,7 @@ document.onkeyup = function (event) {
       // Replace the underscore with the guessed letter every instance where there is a match
       if (guess === chosenWord[i]) {
         underscore.splice([i], 1, guess);
+        guessCorrect();
         console.log(underscore);
       };
 
@@ -102,14 +108,14 @@ document.onkeyup = function (event) {
 
   // Check if user has completed word or run out of guesses
   if (underscore.join('') === chosenWord) {
-    // gamesWon ++;
-    // document.querySelector('#status').innerHTML = "Congratulations!"
+    gamesWon++;
+    document.querySelector('#status').innerHTML = "Congratulations!"
 
   }
 
   if (guessRemain < 0) {
-    // document.querySelector("#status").innerHTML = "Game Over! The answer was " + guess;
-    // gamesLost --;
+    document.querySelector("#status").innerHTML = "Game Over! The answer was " + guess;
+    gamesLost--;
   }
 
 };

@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
+
 <body>
 
     <h1>Batman Hangman</h1>
 
     <div id="container">
-        
-        <div id="column1">
+
+        <div class="column">
 
             <h2>Welcome to hangman!</h2>
 
@@ -22,13 +24,32 @@
 
             <p id="guessRemain"></p>
 
+            <h3>Games Won</h3>
+
+            <p id="gamesWon"></p>
+
+            <h3>Games Lost</h3>
+
+            <p id="gamesLost"></p>
+
+            <h4 id="status"></h4>
+
+        </div>
+
+        <div class="column">
+
+            <p id="underscore"></p>
 
         </div>
 
 
     </div>
-    
+
+
+    </div>
+
 
     <script src="./assets/javascript/game.js"></script>
 </body>
+
 </html>
