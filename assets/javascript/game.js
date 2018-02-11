@@ -21,8 +21,13 @@ console.log(chosenWord);
 // Creating blank array for underscores based on length of chosenWord
 var underscore = [];
 
-for (i = 1; i <= chosenWord.length; i++) {
-  underscore.push('_');
+for (i = 0; i < chosenWord.length; i++) {
+  if (chosenWord[i] === ' ') {
+    underscore.push(' ');
+  }
+  else {
+    underscore.push('_');
+  }
 };
 
 console.log(underscore);
@@ -31,7 +36,18 @@ console.log(underscore);
 
 // Creating array for incorrect and all previously guessed letters
 var incorrectLetters = [];
+
 var guessedLetters = [];
+
+var guessRemain = 5;
+
+var gamesLost = 0;
+
+var gamesWon = 0;
+
+// Functions --------------------------------------------------------------
+
+
 
 // GAMEPLAY ===============================================================
 
@@ -76,7 +92,25 @@ document.onkeyup = function (event) {
     incorrectLetters.push(guess);
 
     guessedLetters.push(guess);
+
+    // Remove one remaining guess
+
+    guessRemain--;
+
+    console.log(guessRemain);
   };
+
+  // Check if user has completed word or run out of guesses
+  if (underscore.join('') === chosenWord) {
+    // gamesWon ++;
+    // document.querySelector('#status').innerHTML = "Congratulations!"
+
+  }
+
+  if (guessRemain < 0) {
+    // document.querySelector("#status").innerHTML = "Game Over! The answer was " + guess;
+    // gamesLost --;
+  }
 
 };
 
