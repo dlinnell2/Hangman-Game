@@ -14,15 +14,19 @@ function selectWord(x) {
 
 // Selects the computers answer using previous function and array
 
-var chosenWord = words[selectWord(words.length)];
+function choseWord() {
+  return words[selectWord(words.length)]
+}
 
-console.log(chosenWord);
+var chosenWord = [choseWord()];
+
+console.log(chosenWord[0]);
 
 // Creating blank array for underscores based on length of chosenWord
 var underscore = [];
 
-for (i = 0; i < chosenWord.length; i++) {
-  if (chosenWord[i] === ' ') {
+for (i = 0; i < chosenWord[0].length; i++) {
+  if (chosenWord[0][i] === ' ') {
     underscore.push(' ');
   }
   else {
@@ -47,14 +51,31 @@ var gamesWon = 0;
 
 //Adding items to page
 
-document.getElementById("underscore").innerHTML = underscore.join(' ');
+document.getElementById("underscore").innerHTML = underscore.join('');
 
 // Functions --------------------------------------------------------------
-function guessCorrect (){
-  document.getElementById(underscore.join(' '));
-}
+function start() {
+  document.querySelector('#guessRemain').innerHTML = "Guesses remaining: " + guessRemain;
+
+  document.querySelector('#gamesWon').innerHTML = "Games Won: 0";
+
+  document.querySelector('#gamesLost').innerHTML = "Games Lost: 0";
+};
+
+
+function guessCorrect() {
+  document.getElementById(underscore.join(''));
+};
+
+function gameWon() {
+  document.querySelector('#gamesWon').innerHTML = "Games Won: " + gamesWon;
+  document.querySelector('#status').innerHTML = "Congratulations!";
+};
 
 // GAMEPLAY ===============================================================
+
+// Set all values to starting positions
+start();
 
 // Gather user key strokes
 document.onkeyup = function (event) {
@@ -72,16 +93,16 @@ document.onkeyup = function (event) {
   };
 
   // If not already guessed and there is a match
-  if (chosenWord.indexOf(guess) > -1) {
+  if (chosenWord[0].indexOf(guess) > -1) {
 
     // Push the guessed letter to the guessedLetters array
     guessedLetters.push(guess);
 
     // Cycle through the each character of the chosenWord to find every match
-    for (i = 0; i < chosenWord.length; i++) {
+    for (i = 0; i < chosenWord[0].length; i++) {
 
       // Replace the underscore with the guessed letter every instance where there is a match
-      if (guess === chosenWord[i]) {
+      if (guess === chosenWord[0][i]) {
         underscore.splice([i], 1, guess);
         guessCorrect();
         console.log(underscore);
@@ -106,17 +127,20 @@ document.onkeyup = function (event) {
     console.log(guessRemain);
   };
 
-  // Check if user has completed word or run out of guesses
-  if (underscore.join('') === chosenWord) {
+
+  // Check if user has completed word or run out of guessess
+  // If user has correct answered the word
+  if (underscore.join('') === chosenWord[0]) {
     gamesWon++;
-    document.querySelector('#status').innerHTML = "Congratulations!"
+    gameWon();
 
   }
 
   if (guessRemain < 0) {
     document.querySelector("#status").innerHTML = "Game Over! The answer was " + guess;
     gamesLost--;
-  }
+  };
 
 };
+
 
