@@ -1,0 +1,25 @@
+Initialize
+Computer picks word
+    Create array of words
+    math random to select word
+    Display blanks needed for word
+        For loop to add underscores to an empty array based on length of word
+Player guesses
+    event listener - document.addEventListener(keypress(event));
+                    var = event.key
+        compare if key pressed is > -1 of indexof chosen word
+    If correct
+        Add letter to appropriate place(s) in blanks
+            push to appropriate index of underscore array
+    If not correct 
+        Add letter to "guessed" letters
+            push to incorrect letters array
+        Add piece to hangman - up to 5
+Outcomes
+    5 wrong guesses
+        Completes hangman
+        Shows game over - lost
+        Asks for restart
+    Correct answer
+        Shows win
+        Asks for restart
