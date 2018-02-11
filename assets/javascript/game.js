@@ -4,7 +4,7 @@
 
 // Creates the array from which to pull the answer
 
-var words = ['batman', 'robin', 'batgirl', 'nightwing', 'red hood', 'oracle', 'bane', 'riddler', 'joker', 'harley quinn', 'poison ivy', 'penquin', 'catwoman', 'hush', 'alfred', 'arkham', 'clayface', 'killer croc', 'killer moth', 'mad hatter', 'mr freeze', 'two face', 'scarecrow'];
+var words = ['Batman', 'Robin', 'Batgirl', 'Nightwing', 'Red Hood', 'Oracle', 'Bane', 'Riddler', 'Joker', 'Harley Quinn', 'Poison Ivy', 'Penquin', 'Catwoman', 'Hush', 'Alfred', 'Arkham', 'Clayface', 'Killer Croc', 'Killer Moth', 'Mad Hatter', 'Mr Freeze', 'Two Face', 'Scarecrow'];
 
 // Function used to select index number
 
@@ -49,28 +49,39 @@ var gamesLost = 0;
 
 var gamesWon = 0;
 
-//Adding items to page
-
-document.getElementById("underscore").innerHTML = underscore.join('');
-
 // Functions --------------------------------------------------------------
+// Sets initial values at beginning of game
 function start() {
   document.querySelector('#guessRemain').innerHTML = "Guesses remaining: " + guessRemain;
 
   document.querySelector('#gamesWon').innerHTML = "Games Won: 0";
 
   document.querySelector('#gamesLost').innerHTML = "Games Lost: 0";
+
+  document.getElementById("blanks").innerHTML = underscore.join('');
 };
 
-
+// Replacing underscores with letters on correct guesses
 function guessCorrect() {
-  document.getElementById(underscore.join(''));
+  document.querySelector('#blanks').innerHTML = underscore.join('');
 };
+
+// Updates remaining guess count after incorrect guess
+function guessIncorrect() {
+  document.querySelector('#guessRemain').innerHTML = 'Guesses remaining: ' + guessRemain;
+}
 
 function gameWon() {
   document.querySelector('#gamesWon').innerHTML = "Games Won: " + gamesWon;
-  document.querySelector('#status').innerHTML = "Congratulations!";
+  document.querySelector('#status').innerHTML = "Congratulations! The word was " + chosenWord[0];
 };
+
+function gameLost() {
+  document.querySelector("#gamesLost").innerHTML = "Games Lost: " + gamesLost;
+
+  document.querySelector("#status").innerHTML = "Game Over! The answer was " + chosenWord[0];
+
+}
 
 // GAMEPLAY ===============================================================
 
@@ -93,7 +104,7 @@ document.onkeyup = function (event) {
   };
 
   // If not already guessed and there is a match
-  if (chosenWord[0].indexOf(guess) > -1) {
+  if (chosenWord[0].toLowerCase().indexOf(guess) > -1) {
 
     // Push the guessed letter to the guessedLetters array
     guessedLetters.push(guess);
@@ -102,11 +113,12 @@ document.onkeyup = function (event) {
     for (i = 0; i < chosenWord[0].length; i++) {
 
       // Replace the underscore with the guessed letter every instance where there is a match
-      if (guess === chosenWord[0][i]) {
+      if (guess === chosenWord[0][i].toLowerCase()) {
         underscore.splice([i], 1, guess);
-        guessCorrect();
-        console.log(underscore);
       };
+
+      // Update blanks on page
+      guessCorrect();
 
     };
 
@@ -121,24 +133,27 @@ document.onkeyup = function (event) {
     guessedLetters.push(guess);
 
     // Remove one remaining guess
-
     guessRemain--;
 
-    console.log(guessRemain);
+    // Update remining guesses count
+    guessIncorrect();
   };
 
 
   // Check if user has completed word or run out of guessess
   // If user has correct answered the word
-  if (underscore.join('') === chosenWord[0]) {
-    gamesWon++;
-    gameWon();
+  if (underscore.join('') === chosenWord[0].toLowerCase()) {
 
+    // Increase count of games won
+    gamesWon++;
+
+    // Update games won on page
+    gameWon();
   }
 
-  if (guessRemain < 0) {
-    document.querySelector("#status").innerHTML = "Game Over! The answer was " + guess;
-    gamesLost--;
+  if (guessRemain <= 0) {
+    gamesLost++;
+    gameLost();
   };
 
 };
