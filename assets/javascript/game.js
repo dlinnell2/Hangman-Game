@@ -58,7 +58,7 @@ function start() {
 
   document.querySelector('#gamesLost').innerHTML = 'Games Lost: ' + gamesLost;
 
-  document.querySelector('#lettersGuessed').innerHTML = 'Letters guessed: ' + incorrectLetters;
+  document.querySelector('#lettersGuessed').innerHTML = incorrectLetters;
 
   document.querySelector('#blanks').innerHTML = underscore.join('');
 
@@ -142,7 +142,7 @@ function reset() {
     // Clears items from guessed and incorrect arrays and updates page
     incorrectLetters = [];
 
-    document.querySelector('#lettersGuessed').innerHTML = 'Letters guessed: ' + incorrectLetters;
+    document.querySelector('#lettersGuessed').innerHTML = incorrectLetters;
 
     guessedLetters = [];
 
