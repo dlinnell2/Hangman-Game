@@ -24,7 +24,7 @@ console.log(chosenWord[0]);
 
 // Other Global Variables ================================================
 
-// Creating array for incorrect and all previously guessed letters
+// Creates arrays for use during game
 var incorrectLetters = [];
 
 var guessedLetters = [];
@@ -36,6 +36,8 @@ var gamesLost = 0;
 var gamesWon = 0;
 
 var underscore = [];
+
+var letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', , 'z'];
 
 // Functions =============================================================
 // Build blanks ----------------------------------------------------------
@@ -171,64 +173,73 @@ document.onkeyup = function (event) {
 
   console.log(guess);
 
-  // Once a letter has been guessed
-  // Check if letter has already been guessed
-  for (i = 0; i < guessedLetters.length; i++) {
-    if (guess === guessedLetters[i]) {
-      return;
-    };
-  };
+  // Check if user has entered a valid letter
+  for (var i = 0; i < letters.length; i++) {
+    if (guess.toLowerCase() === letters[i]) {
 
-  // If not already guessed and there is a match
-  if (chosenWord[0].toLowerCase().indexOf(guess) > -1) {
-
-    guessedLetters.push(guess);
-
-    // Cycle through the each character of the chosenWord to find every match
-    for (i = 0; i < chosenWord[0].length; i++) {
-
-      // Replace the underscore with the guessed letter every instance where there is a match
-      if (guess === chosenWord[0][i].toLowerCase()) {
-        underscore.splice(i, 1, guess);
+      // Once a letter has been guessed
+      // Check if letter has already been guessed
+      for (i = 0; i < guessedLetters.length; i++) {
+        if (guess === guessedLetters[i]) {
+          return;
+        };
       };
 
-      guessCorrect();
+      // If not already guessed and there is a match
+      if (chosenWord[0].toLowerCase().indexOf(guess) > -1) {
+
+        guessedLetters.push(guess);
+
+        // Cycle through the each character of the chosenWord to find every match
+        for (i = 0; i < chosenWord[0].length; i++) {
+
+          // Replace the underscore with the guessed letter every instance where there is a match
+          if (guess === chosenWord[0][i].toLowerCase()) {
+            underscore.splice(i, 1, guess);
+          };
+
+          guessCorrect();
+
+        };
+
+      }
+
+      // If there is no match
+      else {
+
+        incorrectLetters.push(guess);
+
+        guessedLetters.push(guess);
+
+        guessIncorrect();
+
+      };
+
+
+      // Check if user has completed word or run out of guessess
+      // If user has correct answered the word
+      if (underscore.join('') === chosenWord[0].toLowerCase()) {
+
+        // Increase count of games won and update on page
+        gameWon();
+
+        // Reset or end game
+        reset();
+      }
+
+      // If user has run out of guesses
+      if (guessRemain <= 0) {
+
+        // Increase count of games lost and update on page
+        gameLost();
+
+        // Reset or end game
+        reset();
+      };
+
 
     };
 
-  }
-
-  // If there is no match
-  else {
-
-    incorrectLetters.push(guess);
-
-    guessedLetters.push(guess);
-
-    guessIncorrect();
-
-  };
-
-
-  // Check if user has completed word or run out of guessess
-  // If user has correct answered the word
-  if (underscore.join('') === chosenWord[0].toLowerCase()) {
-
-    // Increase count of games won and update on page
-    gameWon();
-
-    // Reset or end game
-    reset();
-  }
-
-  // If user has run out of guesses
-  if (guessRemain <= 0) {
-
-    // Increase count of games lost and update on page
-    gameLost();
-
-    // Reset or end game
-    reset();
   };
 
 };
